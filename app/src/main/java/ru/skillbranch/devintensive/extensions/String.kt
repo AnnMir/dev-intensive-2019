@@ -21,3 +21,15 @@ fun String.stripHtml(): String{
     resultStr = resultStr.replace("&.[^\\sа-яА-Я]*?;".toRegex(),"")
     return resultStr
 }
+
+fun String.capitalizeFirst(): String{
+    val stringBuilder = StringBuilder()
+    var str: String = this
+    if(str.isNotBlank()){
+        val first = str.subSequence(0,1).toString().toUpperCase()
+        str = str.drop(1)
+        stringBuilder.append(first)
+        stringBuilder.append(str)
+    }
+    return stringBuilder.toString()
+}

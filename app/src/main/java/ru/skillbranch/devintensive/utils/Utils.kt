@@ -1,5 +1,6 @@
 package ru.skillbranch.devintensive.utils
 
+import ru.skillbranch.devintensive.extensions.capitalizeFirst
 import java.lang.StringBuilder
 import java.util.*
 
@@ -13,7 +14,6 @@ object Utils {
         return firstName to lastName
     }
 
-    @ExperimentalStdlibApi
     fun transliteration(payload: String, divider: String = " "): String {
         val stringBuilder = StringBuilder()
         payload.forEach { letter ->
@@ -24,7 +24,7 @@ object Utils {
             ) {
                 stringBuilder.append(
                     transliterations[letter.toString()
-                        .toLowerCase(Locale.ROOT)]?.capitalize(Locale.ROOT)
+                        .toLowerCase(Locale.ROOT)]?.capitalizeFirst()
                 )
             } else if (transliterations.containsKey(
                     letter.toString().toLowerCase(Locale.ROOT)
