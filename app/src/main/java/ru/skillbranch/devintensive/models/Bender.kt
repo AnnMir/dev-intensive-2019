@@ -53,13 +53,13 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
     enum class Question(val question: String, val answers: List<String>) {
         NAME("Как меня зовут?", listOf("бендер", "bender")) {
             override fun nextQuestion(): Question = PROFESSION
-            override fun validateAnswer(answer: String): String = if (answer.first().isLowerCase())
+            override fun validateAnswer(answer: String): String = if (answer.isNotBlank() && answer.first().isLowerCase())
                 "Имя должно начинаться с заглавной буквы"
             else ""
         },
         PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")) {
             override fun nextQuestion(): Question = MATERIAL
-            override fun validateAnswer(answer: String): String = if (answer.first().isUpperCase())
+            override fun validateAnswer(answer: String): String = if (answer.isNotBlank() && answer.first().isUpperCase())
                 "Профессия должна начинаться со строчной буквы"
             else ""
         },
