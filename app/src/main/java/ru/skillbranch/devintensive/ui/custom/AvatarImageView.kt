@@ -21,7 +21,7 @@ import ru.skillbranch.devintensive.extensions.dpToPx
 import kotlin.math.max
 import kotlin.math.truncate
 
-class CircleImageView @JvmOverloads constructor(
+class AvatarImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -31,6 +31,17 @@ class CircleImageView @JvmOverloads constructor(
         private const val DEFAULT_SIZE = 40
         private const val DEFAULT_BORDER_COLOR = Color.WHITE
         private const val DEFAULT_BORDER_WIDTH = 2
+
+        val bgColors = arrayOf(
+            Color.parseColor("#7BC862"),
+            Color.parseColor("#E17076"),
+            Color.parseColor("#FAA774"),
+            Color.parseColor("#6EC9CB"),
+            Color.parseColor("#65AADD"),
+            Color.parseColor("#A695E7"),
+            Color.parseColor("#EE7AAE"),
+            Color.parseColor("#2196F3")
+        )
     }
 
     @SuppressLint("SupportAnnotationUsage")
@@ -51,16 +62,16 @@ class CircleImageView @JvmOverloads constructor(
 
     init {
         if (attrs != null) {
-            val ta = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView)
+            val ta = context.obtainStyledAttributes(attrs, R.styleable.AvatarImageView)
             borderColor = ta.getColor(
-                R.styleable.cv_borderColor,
+                R.styleable.AvatarImageView_aiv_borderColor,
                 DEFAULT_BORDER_COLOR
             )
             borderWidth = ta.getDimension(
-                R.styleable.cv_borderWidth,
+                R.styleable.AvatarImageView_aiv_borderWidth,
                 context.dpToPx(DEFAULT_BORDER_WIDTH)
             )
-            initials = ta.getString(R.styleable.cv_initials) ?: "??"
+            initials = ta.getString(R.styleable.AvatarImageView_aiv_initials) ?: "??"
             ta.recycle()
         }
         scaleType = ScaleType.CENTER_CROP
@@ -188,7 +199,7 @@ class CircleImageView @JvmOverloads constructor(
     }
 
     private fun drawInitials(canvas: Canvas) {
-        //TODO set colorAccent from attrs initialsPaint.color =
+        initialsPaint.color = initialsToColor(initials)
         canvas.drawOval(viewRect.toRectF(), initialsPaint)
         with(initialsPaint) {
             color = Color.WHITE
@@ -197,6 +208,14 @@ class CircleImageView @JvmOverloads constructor(
         }
         val offsetY = (initialsPaint.descent() + initialsPaint.ascent()) / 2
         canvas.drawText(initials, viewRect.exactCenterX(), viewRect.exactCenterY() - offsetY, initialsPaint)
+    }
+
+    private fun initialsToColor(letters: String): Int {
+        val b = letters[0].toByte()
+        val len = bgColors.size
+        val d = b / len.toDouble()
+        val index = ((d - truncate(d)) * len).toInt()
+        return bgColors[index]
     }
 
     private fun handleLongClick(): Boolean {

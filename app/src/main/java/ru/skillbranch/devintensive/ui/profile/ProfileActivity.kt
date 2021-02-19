@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.Profile
+import ru.skillbranch.devintensive.ui.custom.AvatarImageView
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
 class ProfileActivity : AppCompatActivity() {
@@ -29,13 +30,18 @@ class ProfileActivity : AppCompatActivity() {
     private var isRepositoryValid = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         setTheme(R.style.AppTheme)
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         initViews(savedInstanceState)
         initViewModel()
+        btn_border.setOnClickListener{
+            iv_avatar.setBorderWidth((2..10).random())
+        }
+
+        btn_color.setOnClickListener{
+            iv_avatar.setBorderColor((AvatarImageView.bgColors).random())
+        }
     }
 
 
@@ -80,7 +86,7 @@ class ProfileActivity : AppCompatActivity() {
         showCurrentMode(isEditMode)
 
         btn_edit.setOnClickListener {
-            if(!isRepositoryValid) {
+            if (!isRepositoryValid) {
                 et_repository.setText("")
                 return@setOnClickListener
             } else if (isEditMode) saveProfileData()
@@ -147,7 +153,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun saveProfileData() {
-        if(!isRepositoryValid)
+        if (!isRepositoryValid)
             et_repository.setText("")
         Profile(
             firstName = et_first_name.text.toString(),
