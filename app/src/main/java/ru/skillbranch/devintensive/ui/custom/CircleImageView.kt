@@ -18,8 +18,8 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.toRectF
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.extensions.dpToPx
+import ru.skillbranch.devintensive.extensions.pxToDp
 import kotlin.math.max
-import kotlin.math.truncate
 
 class CircleImageView @JvmOverloads constructor(
     context: Context,
@@ -53,14 +53,14 @@ class CircleImageView @JvmOverloads constructor(
         if (attrs != null) {
             val ta = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView)
             borderColor = ta.getColor(
-                R.styleable.cv_borderColor,
+                R.styleable.CircleImageView_cv_borderColor,
                 DEFAULT_BORDER_COLOR
             )
             borderWidth = ta.getDimension(
-                R.styleable.cv_borderWidth,
+                R.styleable.CircleImageView_cv_borderWidth,
                 context.dpToPx(DEFAULT_BORDER_WIDTH)
             )
-            initials = ta.getString(R.styleable.cv_initials) ?: "??"
+            initials = ta.getString(R.styleable.CircleImageView_cv_initials) ?: "??"
             ta.recycle()
         }
         scaleType = ScaleType.CENTER_CROP
@@ -152,10 +152,24 @@ class CircleImageView @JvmOverloads constructor(
         invalidate()
     }
 
+    fun setBorderColor(colorRes: String) {
+        borderColor = Color.parseColor(colorRes)
+        borderPaint.color = borderColor
+        invalidate()
+    }
+
+    fun getBorderColor(): Int {
+        return borderColor
+    }
+
     fun setBorderWidth(@Dimension width: Int) {
         borderWidth = context.dpToPx(width)
         borderPaint.strokeWidth = borderWidth
         invalidate()
+    }
+
+    fun getBorderWidth() :Int{
+        return context.pxToDp(borderWidth)
     }
 
 

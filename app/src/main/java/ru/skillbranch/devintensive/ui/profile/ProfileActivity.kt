@@ -35,13 +35,6 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
         initViews(savedInstanceState)
         initViewModel()
-        btn_border.setOnClickListener{
-            iv_avatar.setBorderWidth((2..10).random())
-        }
-
-        btn_color.setOnClickListener{
-            iv_avatar.setBorderColor((AvatarImageView.bgColors).random())
-        }
     }
 
 

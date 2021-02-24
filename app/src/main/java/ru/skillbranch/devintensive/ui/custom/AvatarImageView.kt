@@ -169,7 +169,6 @@ class AvatarImageView @JvmOverloads constructor(
         invalidate()
     }
 
-
     private fun resolveDefaultSize(spec: Int): Int {
         return when (MeasureSpec.getMode(spec)) {
             MeasureSpec.UNSPECIFIED -> context.dpToPx(DEFAULT_SIZE).toInt() // resolveDefaultSize
