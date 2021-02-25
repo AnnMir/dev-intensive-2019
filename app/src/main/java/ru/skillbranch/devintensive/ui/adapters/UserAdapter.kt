@@ -3,6 +3,7 @@ package ru.skillbranch.devintensive.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.VisibleForTesting
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -13,8 +14,8 @@ import ru.skillbranch.devintensive.models.data.ChatItem
 import ru.skillbranch.devintensive.models.data.UserItem
 
 class UserAdapter(val listener: (UserItem)->Unit) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
-
-    private var items: List<UserItem> = listOf()
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    var items: List<UserItem> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -56,7 +57,7 @@ class UserAdapter(val listener: (UserItem)->Unit) : RecyclerView.Adapter<UserAda
                 iv_avatar_user.setInitials(user.initials ?: "??")
             }
             sv_indicator.visibility = if(user.isOnline) View.VISIBLE else View.GONE
-            tv_user_name.text = user.fullname
+            tv_user_name.text = user.fullName
             tv_last_activity.text = user.lastActivity
             iv_selected.visibility = if(user.isSelected) View.VISIBLE else View.GONE
             itemView.setOnClickListener { listener.invoke(user) }

@@ -100,7 +100,7 @@ class GroupActivity : AppCompatActivity() {
 
     private fun addChipToGroup(user: UserItem) {
         val chip = Chip(this).apply {
-            text = user.fullname
+            text = user.fullName
             chipIcon = resources.getDrawable(R.drawable.avatar_default, theme)
             isCloseIconVisible = true
             tag = user.id

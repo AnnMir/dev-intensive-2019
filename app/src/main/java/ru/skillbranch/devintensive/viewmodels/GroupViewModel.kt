@@ -23,7 +23,7 @@ class GroupViewModel : ViewModel() {
             val users = userItems.value!!
 
             result.value = if (queryStr.isEmpty()) users
-            else users.filter { it.fullname.contains(queryStr, true) }
+            else users.filter { it.fullName.contains(queryStr, true) }
         }
         result.addSource(userItems) { filterF.invoke() }
         result.addSource(query) { filterF.invoke() }
