@@ -1,4 +1,4 @@
-package ru.skillbranch.devintensive.extensions
+package ru.skillbranch.devintensive.utils
 
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
@@ -8,7 +8,8 @@ import androidx.lifecycle.ViewModel
 
 class ProfileViewModel : ViewModel() {
 
-    private val repository: PreferencesRepository = PreferencesRepository
+    private val repository: PreferencesRepository =
+        PreferencesRepository
     private val profileData = MutableLiveData<Profile>()
     private val appTheme = MutableLiveData<Int>()
 

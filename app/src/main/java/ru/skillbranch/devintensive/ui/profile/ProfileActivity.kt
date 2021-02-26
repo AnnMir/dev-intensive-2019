@@ -1,4 +1,4 @@
-package ru.skillbranch.devintensive.extensions
+package ru.skillbranch.devintensive.ui.profile
 
 import android.graphics.ColorFilter
 import android.graphics.PorterDuff
@@ -14,6 +14,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.utils.Profile
+import ru.skillbranch.devintensive.utils.ProfileViewModel
 
 class ProfileActivity : AppCompatActivity() {
 

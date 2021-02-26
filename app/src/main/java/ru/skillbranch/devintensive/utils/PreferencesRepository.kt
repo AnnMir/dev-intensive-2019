@@ -1,4 +1,4 @@
-package ru.skillbranch.devintensive.extensions
+package ru.skillbranch.devintensive.utils
 
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
@@ -22,27 +22,45 @@ object PreferencesRepository {
     fun getProfile(): Profile =
         Profile(
             prefs.getString(
-                FIRST_NAME, "") ?: "",
+                FIRST_NAME, ""
+            ) ?: "",
             prefs.getString(
-                LAST_NAME, "") ?: "",
+                LAST_NAME, ""
+            ) ?: "",
             prefs.getString(
-                ABOUT, "") ?: "",
+                ABOUT, ""
+            ) ?: "",
             prefs.getString(
-                REPOSITORY, "") ?: "",
+                REPOSITORY, ""
+            ) ?: "",
             prefs.getInt(
-                RATING, 0),
+                RATING, 0
+            ),
             prefs.getInt(
-                RESPECT, 0)
+                RESPECT, 0
+            )
         )
 
     fun saveProfile(profile: Profile) {
         with(profile){
-            putValue(FIRST_NAME to firstName)
-            putValue(LAST_NAME to lastName)
-            putValue(ABOUT to about)
-            putValue(REPOSITORY to repository)
-            putValue(RATING to rating)
-            putValue(RESPECT to respect)
+            putValue(
+                FIRST_NAME to firstName
+            )
+            putValue(
+                LAST_NAME to lastName
+            )
+            putValue(
+                ABOUT to about
+            )
+            putValue(
+                REPOSITORY to repository
+            )
+            putValue(
+                RATING to rating
+            )
+            putValue(
+                RESPECT to respect
+            )
         }
     }
 
