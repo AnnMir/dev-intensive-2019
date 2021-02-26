@@ -8,4 +8,9 @@
     <string name="profile_hint_first_name">Имя</string>
     <string name="menu_search_title">Поиск</string>
     <string name="chat_archive">Архив чатов</string>
+    <string name="enter_chat_header">Введите заголовок чата</string>
+    <string name="enter_user_name">Введите имя пользователя</string>
+    <string name="archive_chat">Вы точно хотите добавить %s в архив?</string>
+    <string name="archive_restore_chat">Восстановить чат с %s из архива?</string>
+    <string name="cancel">ОТМЕНА</string>
 </resources>

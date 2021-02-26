@@ -10,7 +10,6 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.children
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,7 +37,7 @@ class GroupActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_search, menu)
         val searchItem = menu?.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as SearchView
-        searchView.queryHint = "Введите имя пользователя"
+        searchView.queryHint = getString(R.string.enter_user_name)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 viewModel.handleSearchQuery(query)
@@ -54,10 +53,10 @@ class GroupActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return if(item?.itemId == android.R.id.home){
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (item.itemId == android.R.id.home) {
             finish()
-            overridePendingTransition(R.anim.idle,R.anim.bottom_down)
+            overridePendingTransition(R.anim.idle, R.anim.bottom_down)
             true
         } else {
             super.onOptionsItemSelected(item)
@@ -77,7 +76,7 @@ class GroupActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@GroupActivity)
             addItemDecoration(divider)
         }
-        fab.setOnClickListener{
+        fab.setOnClickListener {
             viewModel.handleCreateGroup()
             finish()
             overridePendingTransition(R.anim.idle, R.anim.bottom_down)
@@ -89,12 +88,12 @@ class GroupActivity : AppCompatActivity() {
         viewModel.getUsersData().observe(this, Observer { usersAdapter.updateData(it) })
         viewModel.getSelectedData().observe(this, Observer {
             updateChips(it)
-            toggleFab(it.size>1)
+            toggleFab(it.size > 1)
         })
     }
 
     private fun toggleFab(isShow: Boolean) {
-        if(isShow) fab.show()
+        if (isShow) fab.show()
         else fab.hide()
     }
 

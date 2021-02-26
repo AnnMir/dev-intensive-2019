@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_search, menu)
         val searchItem = menu?.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as SearchView
-        searchView.queryHint = "Введите заголовок чата"
+        searchView.queryHint = getString(R.string.enter_chat_header)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 viewModel.handleSearchQuery(query)
@@ -60,31 +60,31 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViews() {
 
-        chatAdapter = ChatAdapter{
-            if(it.chatType == ChatType.ARCHIVE){
+        chatAdapter = ChatAdapter {
+            if (it.chatType == ChatType.ARCHIVE) {
                 val intent = Intent(this, ArchiveActivity::class.java)
                 startActivity(intent)
-            }else{
+            } else {
                 Snackbar.make(rv_chat_list, "Click on ${it.title}", Snackbar.LENGTH_LONG).show()
             }
         }
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        val touchCallback = ChatItemTouchHelperCallback(chatAdapter){ chatItem ->
+        val touchCallback = ChatItemTouchHelperCallback(chatAdapter) { chatItem ->
             viewModel.addToArchive(chatItem.id)
-            Snackbar.make(rv_chat_list, "Вы точно хотите добавить ${chatItem.title} в архив?", Snackbar.LENGTH_LONG)
-                .setAction("ОТМЕНА"){viewModel.onCancelArchiveClick(chatItem.id)}
+            Snackbar.make(rv_chat_list, getString(R.string.archive_chat,chatItem.title), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.cancel)) { viewModel.onCancelArchiveClick(chatItem.id) }
                 .show()
         }
         val touchHelper = ItemTouchHelper(touchCallback)
         touchHelper.attachToRecyclerView(rv_chat_list)
 
-        with(rv_chat_list){
+        with(rv_chat_list) {
             adapter = chatAdapter
             layoutManager = LinearLayoutManager(this@MainActivity)
             addItemDecoration(divider)
         }
 
-        fab.setOnClickListener{
+        fab.setOnClickListener {
             val intent = Intent(this, GroupActivity::class.java)
             startActivity(intent)
         }
