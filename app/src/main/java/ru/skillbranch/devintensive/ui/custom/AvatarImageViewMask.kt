@@ -75,11 +75,10 @@ class AvatarImageViewMask @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
-        //super.onDraw(canvas)
         // NOT allocate only draw
         canvas.drawBitmap(resultBm, viewRect, viewRect, null)
         //resize rect
-        val half = (borderWidth/2).toInt()
+        val half = (borderWidth / 2).toInt()
         viewRect.inset(half, half)
         canvas.drawOval(viewRect.toRectF(), borderPaint)
     }
@@ -114,7 +113,7 @@ class AvatarImageViewMask @JvmOverloads constructor(
         val maskCanvas = Canvas(maskBm)
         maskCanvas.drawOval(viewRect.toRectF(), maskPaint)
         maskPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-        srcBm = drawable.toBitmap(w,h,Bitmap.Config.ARGB_8888)
+        srcBm = drawable.toBitmap(w, h, Bitmap.Config.ARGB_8888)
 
         val resultCanvas = Canvas(resultBm)
         resultCanvas.drawBitmap(maskBm, viewRect, viewRect, null)

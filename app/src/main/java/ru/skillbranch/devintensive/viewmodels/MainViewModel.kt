@@ -12,7 +12,7 @@ class MainViewModel : ViewModel() {
         val chatsTmp = chats.partition { it.isArchived }
         val archiveItem = composeArchiveItem(chatsTmp.first.map { it.toChatItem() })
         val newChats = mutableListOf<ChatItem>()
-        if(archiveItem!=null){
+        if (archiveItem != null) {
             newChats.add(archiveItem)
         }
         newChats.addAll(
@@ -41,7 +41,7 @@ class MainViewModel : ViewModel() {
         return result
     }
 
-    private fun composeArchiveItem(archive: List<ChatItem>) : ChatItem?{
+    private fun composeArchiveItem(archive: List<ChatItem>): ChatItem? {
         val msgCount = archive.sumBy { it.messageCount }
         return archive.lastOrNull().let {
             it?.copy(messageCount = msgCount)

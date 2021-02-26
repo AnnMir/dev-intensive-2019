@@ -16,7 +16,7 @@ object Utils {
 
     fun transliteration(payload: String, divider: String = " "): String {
         val words = payload.split(" ")
-        if(words.size != 2 || (words[0].isBlank() && words[1].isBlank()))
+        if (words.size != 2 || (words[0].isBlank() && words[1].isBlank()))
             return ""
         val stringBuilder = StringBuilder()
         payload.trim().forEach { letter ->

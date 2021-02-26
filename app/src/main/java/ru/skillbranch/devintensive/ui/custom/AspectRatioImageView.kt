@@ -16,9 +16,10 @@ class AspectRatioImageView @JvmOverloads constructor(
     private var aspectRatio = DEFAULT_ASPECT_RATIO
 
     init {
-        if (attrs != null){
+        if (attrs != null) {
             val a = context.obtainStyledAttributes(attrs, R.styleable.AspectRatioImageView)
-            aspectRatio = a.getFloat(R.styleable.AspectRatioImageView_aspectRatio,
+            aspectRatio = a.getFloat(
+                R.styleable.AspectRatioImageView_aspectRatio,
                 DEFAULT_ASPECT_RATIO
             )
             a.recycle()
@@ -27,7 +28,7 @@ class AspectRatioImageView @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        val newHeight = (measuredWidth/aspectRatio).toInt()
+        val newHeight = (measuredWidth / aspectRatio).toInt()
         setMeasuredDimension(measuredWidth, newHeight)
     }
 }

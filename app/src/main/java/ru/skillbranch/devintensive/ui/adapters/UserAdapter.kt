@@ -13,7 +13,7 @@ import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.data.ChatItem
 import ru.skillbranch.devintensive.models.data.UserItem
 
-class UserAdapter(val listener: (UserItem)->Unit) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+class UserAdapter(private val listener: (UserItem) -> Unit) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     var items: List<UserItem> = listOf()
 
@@ -28,10 +28,11 @@ class UserAdapter(val listener: (UserItem)->Unit) : RecyclerView.Adapter<UserAda
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) = holder.bind(items[position], listener)
 
     fun updateData(data: List<UserItem>) {
-        val diffCallback = object : DiffUtil.Callback(){
+        val diffCallback = object : DiffUtil.Callback() {
             override fun areItemsTheSame(oldPos: Int, newPos: Int): Boolean = items[oldPos].id == data[newPos].id
 
-            override fun areContentsTheSame(oldPos: Int, newPos: Int): Boolean = items[oldPos].hashCode() == data[newPos].hashCode()
+            override fun areContentsTheSame(oldPos: Int, newPos: Int): Boolean =
+                items[oldPos].hashCode() == data[newPos].hashCode()
 
             override fun getOldListSize(): Int = items.size
 
@@ -47,8 +48,8 @@ class UserAdapter(val listener: (UserItem)->Unit) : RecyclerView.Adapter<UserAda
         override val containerView: View?
             get() = itemView
 
-        fun bind(user: UserItem, listener: (UserItem)->Unit){
-            if(user.avatar != null){
+        fun bind(user: UserItem, listener: (UserItem) -> Unit) {
+            if (user.avatar != null) {
                 Glide.with(itemView)
                     .load(user.avatar)
                     .into(iv_avatar_user)
@@ -56,10 +57,10 @@ class UserAdapter(val listener: (UserItem)->Unit) : RecyclerView.Adapter<UserAda
                 Glide.with(itemView).clear(iv_avatar_user)
                 iv_avatar_user.setInitials(user.initials ?: "??")
             }
-            sv_indicator.visibility = if(user.isOnline) View.VISIBLE else View.GONE
+            sv_indicator.visibility = if (user.isOnline) View.VISIBLE else View.GONE
             tv_user_name.text = user.fullName
             tv_last_activity.text = user.lastActivity
-            iv_selected.visibility = if(user.isSelected) View.VISIBLE else View.GONE
+            iv_selected.visibility = if (user.isSelected) View.VISIBLE else View.GONE
             itemView.setOnClickListener { listener.invoke(user) }
         }
     }

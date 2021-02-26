@@ -11,8 +11,8 @@ import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.data.ChatItem
 
 class ChatItemTouchHelperCallback(
-    val adapter: ChatAdapter,
-    val swipeListener: (ChatItem) -> Unit
+    private val adapter: ChatAdapter,
+    private val swipeListener: (ChatItem) -> Unit
 ) : ItemTouchHelper.Callback() {
 
     private val bgRect = RectF()
@@ -38,14 +38,14 @@ class ChatItemTouchHelperCallback(
     }
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
-        if(actionState != ItemTouchHelper.ACTION_STATE_IDLE && viewHolder is ItemTouchViewHolder){
+        if (actionState != ItemTouchHelper.ACTION_STATE_IDLE && viewHolder is ItemTouchViewHolder) {
             viewHolder.onItemSelected()
         }
         super.onSelectedChanged(viewHolder, actionState)
     }
 
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
-        if(viewHolder is ItemTouchViewHolder) viewHolder.onItemCleared()
+        if (viewHolder is ItemTouchViewHolder) viewHolder.onItemCleared()
         super.clearView(recyclerView, viewHolder)
     }
 
@@ -58,7 +58,7 @@ class ChatItemTouchHelperCallback(
         actionState: Int,
         isCurrentlyActive: Boolean
     ) {
-        if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
+        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
             val itemView = viewHolder.itemView
             drawBackground(canvas, itemView, dX)
             drawIcon(canvas, itemView, dX)
@@ -71,8 +71,8 @@ class ChatItemTouchHelperCallback(
         val iconSize = itemView.resources.getDimensionPixelSize(R.dimen.icon_size)
         val space = itemView.resources.getDimensionPixelSize(R.dimen.spacing_normal_16)
 
-        val margin = (itemView.bottom - itemView.top - iconSize) /2
-        with(iconBounds){
+        val margin = (itemView.bottom - itemView.top - iconSize) / 2
+        with(iconBounds) {
             left = itemView.right + dX.toInt() + space
             top = itemView.top + margin
             right = itemView.right + dX.toInt() + iconSize + space
@@ -84,14 +84,14 @@ class ChatItemTouchHelperCallback(
     }
 
     private fun drawBackground(canvas: Canvas, itemView: View, dX: Float) {
-        with(bgRect){
+        with(bgRect) {
             left = dX // itemView.left ?
             top = itemView.top.toFloat()
             right = itemView.right.toFloat()
             bottom = itemView.bottom.toFloat()
         }
 
-        with(bgPaint){
+        with(bgPaint) {
             color = itemView.resources.getColor(R.color.color_primary_dark, itemView.context.theme)
         }
 

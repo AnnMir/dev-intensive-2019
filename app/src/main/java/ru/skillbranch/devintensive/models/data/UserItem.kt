@@ -1,6 +1,6 @@
 package ru.skillbranch.devintensive.models.data
 
-data class UserItem (
+data class UserItem(
     val id: String,
     val fullName: String,
     val initials: String?,

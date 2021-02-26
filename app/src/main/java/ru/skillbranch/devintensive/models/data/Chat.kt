@@ -21,9 +21,7 @@ data class Chat(
             .sumBy { 1 }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun lastMessageDate(): Date? {
-        return messages.lastOrNull()?.date
-    }
+    fun lastMessageDate(): Date? = messages.lastOrNull()?.date
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun lastMessageShort(): Pair<String, String?> {

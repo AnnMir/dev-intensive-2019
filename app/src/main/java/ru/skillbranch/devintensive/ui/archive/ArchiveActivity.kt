@@ -45,7 +45,6 @@ class ArchiveActivity : AppCompatActivity() {
                 viewModel.handleSearchQuery(newText)
                 return true
             }
-
         })
         return super.onCreateOptionsMenu(menu)
     }
@@ -73,7 +72,11 @@ class ArchiveActivity : AppCompatActivity() {
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         val touchCallback = ChatItemTouchHelperCallback(chatAdapter) { chatItem ->
             viewModel.restoreFromArchive(chatItem.id)
-            Snackbar.make(rv_archive_list, getString(R.string.archive_restore_chat,chatItem.title), Snackbar.LENGTH_LONG)
+            Snackbar.make(
+                rv_archive_list,
+                getString(R.string.archive_restore_chat, chatItem.title),
+                Snackbar.LENGTH_LONG
+            )
                 .setAction(getString(R.string.cancel)) { viewModel.onCancelRestoreClick(chatItem.id) }
                 .show()
         }

@@ -87,7 +87,6 @@ class CircleImageView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
-        //super.onDraw(canvas)
         // NOT allocate only draw
         if (drawable != null && isAvatarMode) {
             drawAvatar(canvas)
@@ -110,12 +109,12 @@ class CircleImageView @JvmOverloads constructor(
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
-        if(state is SavedState){
+        if (state is SavedState) {
             super.onRestoreInstanceState(state)
             isAvatarMode = state.isAvatarMode
             borderWidth = state.borderWidth
             borderColor = state.borderColor
-            with(borderPaint){
+            with(borderPaint) {
                 color = borderColor
                 strokeWidth = borderWidth
             }
@@ -168,7 +167,7 @@ class CircleImageView @JvmOverloads constructor(
         invalidate()
     }
 
-    fun getBorderWidth() :Int{
+    fun getBorderWidth(): Int {
         return context.pxToDp(borderWidth)
     }
 
@@ -240,7 +239,7 @@ class CircleImageView @JvmOverloads constructor(
         var borderWidth: Float = 0f
         var borderColor: Int = 0
 
-        constructor(superState: Parcelable?) : super(superState){
+        constructor(superState: Parcelable?) : super(superState) {
 
         }
 
@@ -256,7 +255,7 @@ class CircleImageView @JvmOverloads constructor(
             //write state to parcel
 
             super.writeToParcel(dst, flags)
-            dst.writeInt(if(isAvatarMode) 1 else 0)
+            dst.writeInt(if (isAvatarMode) 1 else 0)
             dst.writeFloat(borderWidth)
             dst.writeInt(borderColor)
         }

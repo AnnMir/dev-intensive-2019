@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         val touchCallback = ChatItemTouchHelperCallback(chatAdapter) { chatItem ->
             viewModel.addToArchive(chatItem.id)
-            Snackbar.make(rv_chat_list, getString(R.string.archive_chat,chatItem.title), Snackbar.LENGTH_LONG)
+            Snackbar.make(rv_chat_list, getString(R.string.archive_chat, chatItem.title), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.cancel)) { viewModel.onCancelArchiveClick(chatItem.id) }
                 .show()
         }

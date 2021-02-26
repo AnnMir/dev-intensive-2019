@@ -8,9 +8,7 @@ object ChatRepository {
 
     private val chats = CacheManager.loadChats()
 
-    fun loadChats(): MutableLiveData<List<Chat>> {
-        return chats
-    }
+    fun loadChats(): MutableLiveData<List<Chat>> = chats
 
     fun update(chat: Chat) {
         val copy = chats.value!!.toMutableList()

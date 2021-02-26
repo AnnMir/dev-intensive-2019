@@ -73,11 +73,10 @@ class AvatarImageViewShader @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
-        //super.onDraw(canvas)
         // NOT allocate only draw
         canvas.drawOval(viewRect.toRectF(), avatarPaint)
         //resize rect
-        val half = (borderWidth/2).toInt()
+        val half = (borderWidth / 2).toInt()
         viewRect.inset(half, half)
         canvas.drawOval(viewRect.toRectF(), borderPaint)
     }
@@ -103,7 +102,7 @@ class AvatarImageViewShader @JvmOverloads constructor(
     private fun prepareShader(w: Int, h: Int) {
         // prepare buffer this
 
-        val srcBm = drawable.toBitmap(w,h,Bitmap.Config.ARGB_8888)
+        val srcBm = drawable.toBitmap(w, h, Bitmap.Config.ARGB_8888)
         avatarPaint.shader = BitmapShader(srcBm, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
     }
 }
