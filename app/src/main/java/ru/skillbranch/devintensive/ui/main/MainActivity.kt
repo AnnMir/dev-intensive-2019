@@ -22,8 +22,8 @@ import ru.skillbranch.devintensive.viewmodels.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var chatAdapter: ChatAdapter
-    private lateinit var viewModel: MainViewModel
+    private var chatAdapter: ChatAdapter? = null
+    private var viewModel: MainViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,12 +41,12 @@ class MainActivity : AppCompatActivity() {
         searchView.queryHint = getString(R.string.enter_chat_header)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                viewModel.handleSearchQuery(query)
+                viewModel?.handleSearchQuery(query)
                 return true
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                viewModel.handleSearchQuery(newText)
+                viewModel?.handleSearchQuery(newText)
                 return true
             }
 
@@ -69,14 +69,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        val touchCallback = ChatItemTouchHelperCallback(chatAdapter) { chatItem ->
-            viewModel.addToArchive(chatItem.id)
+        val touchCallback = chatAdapter?.let {
+            ChatItemTouchHelperCallback(it) { chatItem ->
+            viewModel?.addToArchive(chatItem.id)
             Snackbar.make(rv_chat_list, getString(R.string.archive_chat, chatItem.title), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.cancel)) { viewModel.onCancelArchiveClick(chatItem.id) }
+                .setAction(getString(R.string.cancel)) { viewModel?.onCancelArchiveClick(chatItem.id) }
                 .show()
-        }
-        val touchHelper = ItemTouchHelper(touchCallback)
-        touchHelper.attachToRecyclerView(rv_chat_list)
+        } }
+
+        val touchHelper = touchCallback?.let { ItemTouchHelper(it) }
+        touchHelper?.attachToRecyclerView(rv_chat_list)
 
         with(rv_chat_list) {
             adapter = chatAdapter
@@ -92,6 +94,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViewModel() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        viewModel.getChatData().observe(this, Observer { chatAdapter.updateData(it) })
+        viewModel?.getChatData()?.observe(this, Observer { chatAdapter?.updateData(it) })
     }
 }

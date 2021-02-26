@@ -18,7 +18,7 @@ data class Chat(
     fun unreadableMessageCount(): Int =
         messages
             .filter { !it.isReaded }
-            .sumBy { 1 }
+            .count()
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun lastMessageDate(): Date? = messages.lastOrNull()?.date

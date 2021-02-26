@@ -243,9 +243,7 @@ class AvatarImageView @JvmOverloads constructor(
         var borderWidth: Float = 0f
         var borderColor: Int = 0
 
-        constructor(superState: Parcelable?) : super(superState) {
-
-        }
+        constructor(superState: Parcelable?) : super(superState) {}
 
         constructor(src: Parcel) : super(src) {
             //restore state from parcel

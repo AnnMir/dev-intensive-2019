@@ -22,8 +22,8 @@ import ru.skillbranch.devintensive.viewmodels.GroupViewModel
 
 class GroupActivity : AppCompatActivity() {
 
-    private lateinit var usersAdapter: UserAdapter
-    private lateinit var viewModel: GroupViewModel
+    private var usersAdapter: UserAdapter? = null
+    private var viewModel: GroupViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,12 +40,12 @@ class GroupActivity : AppCompatActivity() {
         searchView.queryHint = getString(R.string.enter_user_name)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                viewModel.handleSearchQuery(query)
+                viewModel?.handleSearchQuery(query)
                 return true
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                viewModel.handleSearchQuery(newText)
+                viewModel?.handleSearchQuery(newText)
                 return true
             }
 
@@ -69,7 +69,7 @@ class GroupActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        usersAdapter = UserAdapter { viewModel.handleSelectedItem(it.id) }
+        usersAdapter = UserAdapter { viewModel?.handleSelectedItem(it.id) }
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         with(rv_user_list) {
             adapter = usersAdapter
@@ -77,7 +77,7 @@ class GroupActivity : AppCompatActivity() {
             addItemDecoration(divider)
         }
         fab.setOnClickListener {
-            viewModel.handleCreateGroup()
+            viewModel?.handleCreateGroup()
             finish()
             overridePendingTransition(R.anim.idle, R.anim.bottom_down)
         }
@@ -85,8 +85,8 @@ class GroupActivity : AppCompatActivity() {
 
     private fun initViewModel() {
         viewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
-        viewModel.getUsersData().observe(this, Observer { usersAdapter.updateData(it) })
-        viewModel.getSelectedData().observe(this, Observer {
+        viewModel?.getUsersData()?.observe(this, Observer { usersAdapter?.updateData(it) })
+        viewModel?.getSelectedData()?.observe(this, Observer {
             updateChips(it)
             toggleFab(it.size > 1)
         })
@@ -108,7 +108,7 @@ class GroupActivity : AppCompatActivity() {
             chipBackgroundColor = ColorStateList.valueOf(getColor(R.color.color_primary_light))
             setTextColor(Color.WHITE)
         }
-        chip.setOnCloseIconClickListener { viewModel.handleRemoveChip(it.tag.toString()) }
+        chip.setOnCloseIconClickListener { viewModel?.handleRemoveChip(it.tag.toString()) }
         chip_group.addView(chip)
     }
 

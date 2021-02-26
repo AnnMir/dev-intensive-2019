@@ -1,8 +1,7 @@
-package ru.skillbranch.devintensive
+package ru.skillbranch.devintensive.extensions
 
 import android.app.Application
 import android.content.Context
-import androidx.appcompat.app.AppCompatDelegate
 
 class App: Application() {
 
