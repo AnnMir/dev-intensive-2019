@@ -1,10 +1,12 @@
-package ru.skillbranch.devintensive.utils
+package ru.skillbranch.devintensive.viewmodels
 
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import ru.skillbranch.devintensive.repositories.PreferencesRepository
+import ru.skillbranch.devintensive.utils.Profile
 
 class ProfileViewModel : ViewModel() {
 

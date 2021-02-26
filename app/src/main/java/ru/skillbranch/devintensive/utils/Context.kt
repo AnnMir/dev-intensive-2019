@@ -1,4 +1,4 @@
-package ru.skillbranch.devintensive.extensions
+package ru.skillbranch.devintensive.utils
 
 import android.content.Context
 

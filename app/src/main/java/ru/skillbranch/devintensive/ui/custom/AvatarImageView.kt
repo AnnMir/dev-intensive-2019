@@ -17,7 +17,7 @@ import androidx.core.animation.doOnRepeat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.toRectF
 import ru.skillbranch.devintensive.R
-import ru.skillbranch.devintensive.extensions.dpToPx
+import ru.skillbranch.devintensive.utils.dpToPx
 import kotlin.math.max
 import kotlin.math.truncate
 
