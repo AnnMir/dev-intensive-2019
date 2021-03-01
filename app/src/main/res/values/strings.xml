@@ -13,4 +13,5 @@
     <string name="archive_chat">Вы точно хотите добавить %s в архив?</string>
     <string name="archive_restore_chat">Восстановить чат с %s из архива?</string>
     <string name="cancel">ОТМЕНА</string>
+    <string name="archive_item_author">\@%s</string>
 </resources>

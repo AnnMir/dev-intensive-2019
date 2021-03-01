@@ -165,7 +165,7 @@ class ChatAdapter(private val listener: (ChatItem) -> Unit) : RecyclerView.Adapt
             tv_message_archive.text = item.shortDescription
             with(tv_message_author_archive) {
                 visibility = if (item.messageCount > 0) View.VISIBLE else View.GONE
-                text = item.author
+                text = context.getString(R.string.archive_item_author, item.author)
             }
             itemView.setOnClickListener {
                 listener.invoke(item)
