@@ -6,15 +6,18 @@ import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.TypedValue
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.Profile
+import ru.skillbranch.devintensive.ui.custom.TextDrawable
 import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
@@ -27,6 +30,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var viewModel: ProfileViewModel
     private var isEditMode = false
     lateinit var viewFields: Map<String, TextView>
+    private lateinit var textDrawable: TextDrawable
     private var isRepositoryValid = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +70,14 @@ class ProfileActivity : AppCompatActivity() {
     private fun updateInitials() {
         val firstName = et_first_name.text.toString()
         val lastName = et_last_name.text.toString()
-        Utils.toInitials(firstName, lastName)?.let { iv_avatar.setInitials(it) }
+        val letters = Utils.toInitials(firstName, lastName)
+        if (letters.isNullOrBlank()) {
+            iv_avatar.setImageResource(R.drawable.avatar_default)
+        } else {
+            textDrawable.text = letters
+            textDrawable.setBounds(iv_avatar.left,iv_avatar.top,iv_avatar.right,iv_avatar.bottom)
+            iv_avatar.setImageDrawable(textDrawable)
+        }
     }
 
     private fun initViews(savedInstanceState: Bundle?) {
@@ -80,6 +91,13 @@ class ProfileActivity : AppCompatActivity() {
             "rating" to tv_rating,
             "respect" to tv_respect
         )
+
+        textDrawable = TextDrawable().apply {
+            val typedValue = TypedValue()
+            theme.resolveAttribute(R.attr.colorAccent, typedValue, true)
+            backgroundColor = ContextCompat.getColor(this@ProfileActivity, typedValue.resourceId)
+            setBounds(iv_avatar.left,iv_avatar.top,iv_avatar.right,iv_avatar.bottom)
+        }
 
         isEditMode = savedInstanceState?.getBoolean(IS_EDIT_MODE, false) ?: false
         showCurrentMode(isEditMode)
