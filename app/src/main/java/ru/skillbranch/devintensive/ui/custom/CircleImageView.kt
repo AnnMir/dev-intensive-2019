@@ -4,6 +4,7 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Parcel
 import android.os.Parcelable
@@ -40,7 +41,6 @@ class CircleImageView @JvmOverloads constructor(
     private var borderColor: Int = DEFAULT_BORDER_COLOR
     private var initials: String = "??"
 
-    private var bitmap: Bitmap? = null
     private val avatarPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val borderPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val initialsPaint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -99,7 +99,6 @@ class CircleImageView @JvmOverloads constructor(
         borderRect.set(viewRect)
         borderRect.inset(half, half)
         canvas.drawOval(borderRect.toRectF(), borderPaint)
-        setImageBitmap(bitmap)
     }
 
     override fun onSaveInstanceState(): Parcelable? {
@@ -127,6 +126,7 @@ class CircleImageView @JvmOverloads constructor(
 
     override fun setImageBitmap(bm: Bitmap?) {
         super.setImageBitmap(bm)
+        this.setImageDrawable(BitmapDrawable(context.resources,bm))
         if (isAvatarMode) prepareShader(width, height)
     }
 
@@ -193,8 +193,8 @@ class CircleImageView @JvmOverloads constructor(
     private fun prepareShader(w: Int, h: Int) {
         // prepare buffer this
         if (w == 0 || drawable == null) return
-        bitmap = drawable.toBitmap(w, h, Bitmap.Config.ARGB_8888)
-        avatarPaint.shader = BitmapShader(bitmap!!, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+        val bitmap = drawable.toBitmap(w, h, Bitmap.Config.ARGB_8888)
+        avatarPaint.shader = BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
     }
 
     private fun drawAvatar(canvas: Canvas) {
