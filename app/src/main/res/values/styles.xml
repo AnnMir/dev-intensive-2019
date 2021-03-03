@@ -63,8 +63,4 @@
         <item name="android:textColor">@color/color_accent</item>
         <item name="android:textSize">@dimen/font_small_12</item>
     </style>
-
-    <style name="Profile.AvatarImage.Background" parent="Profile">
-        <item name="android:color">?attr/colorAccent</item>
-    </style>
 </resources>

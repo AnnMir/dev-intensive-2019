@@ -147,8 +147,9 @@ class CircleImageView @JvmOverloads constructor(
         }
     }
 
-    fun setBorderColor(@ColorInt color: Int) {
-        borderColor = color
+    @SuppressLint("ResourceType")
+    fun setBorderColor(@ColorInt colorId: Int) {
+        borderColor = resources.getColor(colorId,context.theme)
         borderPaint.color = borderColor
         invalidate()
     }
@@ -202,7 +203,7 @@ class CircleImageView @JvmOverloads constructor(
     }
 
     private fun drawInitials(canvas: Canvas) {
-        initialsPaint.color = R.style.Profile_AvatarImage_Background
+        initialsPaint.color = resources.getColor(R.color.color_accent, context.theme)
         canvas.drawOval(viewRect.toRectF(), initialsPaint)
         with(initialsPaint) {
             color = Color.WHITE
