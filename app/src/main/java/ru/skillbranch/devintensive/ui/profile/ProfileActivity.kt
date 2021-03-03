@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.Profile
-import ru.skillbranch.devintensive.ui.custom.AvatarImageView
+import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
 class ProfileActivity : AppCompatActivity() {
@@ -35,15 +35,7 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
         initViews(savedInstanceState)
         initViewModel()
-        btn_border.setOnClickListener{
-            iv_avatar.setBorderWidth((2..10).random())
-        }
-
-        btn_color.setOnClickListener{
-            iv_avatar.setBorderColor((AvatarImageView.bgColors).random())
-        }
     }
-
 
     override fun onSaveInstanceState(outState: Bundle) {
         saveProfileData()
@@ -59,7 +51,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun updateTheme(mode: Int) {
-        delegate.setLocalNightMode(mode)
+        getDelegate().setLocalNightMode(mode)
     }
 
     private fun updateUI(profile: Profile) {
@@ -68,6 +60,13 @@ class ProfileActivity : AppCompatActivity() {
                 v.text = it[k].toString()
             }
         }
+        updateInitials()
+    }
+
+    private fun updateInitials() {
+        val firstName = et_first_name.text.toString()
+        val lastName = et_last_name.text.toString()
+        Utils.toInitials(firstName, lastName)?.let { iv_avatar.setInitials(it) }
     }
 
     private fun initViews(savedInstanceState: Bundle?) {

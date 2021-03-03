@@ -1,6 +1,5 @@
 package ru.skillbranch.devintensive.viewmodels
 
-import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,8 +16,6 @@ class ProfileViewModel : ViewModel() {
     init {
         profileData.value = repository.getProfile()
         appTheme.value = repository.getAppTheme()
-        Log.i("DEV-INTENSIVE123", profileData.value!!.firstName)
-        Log.i("DEV-INTENSIVE123", appTheme.value.toString())
     }
 
     fun getProfileData(): LiveData<Profile> = profileData
@@ -26,13 +23,11 @@ class ProfileViewModel : ViewModel() {
     fun getAppTheme(): LiveData<Int> = appTheme
 
     fun saveProfileData(profile: Profile) {
-        Log.i("DEV-INTENSIVE123", "saveProfileData")
         repository.saveProfile(profile)
         profileData.value = profile
     }
 
     fun saveAppTheme() {
-        Log.i("DEV-INTENSIVE123", "saveAppTheme")
         repository.saveAppTheme(appTheme.value!!)
     }
 

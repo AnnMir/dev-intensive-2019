@@ -18,8 +18,8 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.toRectF
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.extensions.dpToPx
+import ru.skillbranch.devintensive.extensions.pxToDp
 import kotlin.math.max
-import kotlin.math.truncate
 
 class CircleImageView @JvmOverloads constructor(
     context: Context,
@@ -40,6 +40,7 @@ class CircleImageView @JvmOverloads constructor(
     private var borderColor: Int = DEFAULT_BORDER_COLOR
     private var initials: String = "??"
 
+    private var bitmap: Bitmap? = null
     private val avatarPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val borderPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val initialsPaint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -47,20 +48,20 @@ class CircleImageView @JvmOverloads constructor(
     private val borderRect = Rect()
     private var size = 0
 
-    private var isAvatarMode = true
+    private var isAvatarMode = false
 
     init {
         if (attrs != null) {
             val ta = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView)
             borderColor = ta.getColor(
-                R.styleable.cv_borderColor,
+                R.styleable.CircleImageView_cv_borderColor,
                 DEFAULT_BORDER_COLOR
             )
             borderWidth = ta.getDimension(
-                R.styleable.cv_borderWidth,
+                R.styleable.CircleImageView_cv_borderWidth,
                 context.dpToPx(DEFAULT_BORDER_WIDTH)
             )
-            initials = ta.getString(R.styleable.cv_initials) ?: "??"
+            initials = ta.getString(R.styleable.CircleImageView_cv_initials) ?: "??"
             ta.recycle()
         }
         scaleType = ScaleType.CENTER_CROP
@@ -87,7 +88,6 @@ class CircleImageView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
-        //super.onDraw(canvas)
         // NOT allocate only draw
         if (drawable != null && isAvatarMode) {
             drawAvatar(canvas)
@@ -99,6 +99,7 @@ class CircleImageView @JvmOverloads constructor(
         borderRect.set(viewRect)
         borderRect.inset(half, half)
         canvas.drawOval(borderRect.toRectF(), borderPaint)
+        setImageBitmap(bitmap)
     }
 
     override fun onSaveInstanceState(): Parcelable? {
@@ -110,12 +111,12 @@ class CircleImageView @JvmOverloads constructor(
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
-        if(state is SavedState){
+        if (state is SavedState) {
             super.onRestoreInstanceState(state)
             isAvatarMode = state.isAvatarMode
             borderWidth = state.borderWidth
             borderColor = state.borderColor
-            with(borderPaint){
+            with(borderPaint) {
                 color = borderColor
                 strokeWidth = borderWidth
             }
@@ -152,12 +153,25 @@ class CircleImageView @JvmOverloads constructor(
         invalidate()
     }
 
+    fun setBorderColor(colorRes: String) {
+        borderColor = Color.parseColor(colorRes)
+        borderPaint.color = borderColor
+        invalidate()
+    }
+
+    fun getBorderColor(): Int {
+        return borderColor
+    }
+
     fun setBorderWidth(@Dimension width: Int) {
         borderWidth = context.dpToPx(width)
         borderPaint.strokeWidth = borderWidth
         invalidate()
     }
 
+    fun getBorderWidth(): Int {
+        return context.pxToDp(borderWidth)
+    }
 
     private fun resolveDefaultSize(spec: Int): Int {
         return when (MeasureSpec.getMode(spec)) {
@@ -179,8 +193,8 @@ class CircleImageView @JvmOverloads constructor(
     private fun prepareShader(w: Int, h: Int) {
         // prepare buffer this
         if (w == 0 || drawable == null) return
-        val srcBm = drawable.toBitmap(w, h, Bitmap.Config.ARGB_8888)
-        avatarPaint.shader = BitmapShader(srcBm, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+        bitmap = drawable.toBitmap(w, h, Bitmap.Config.ARGB_8888)
+        avatarPaint.shader = BitmapShader(bitmap!!, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
     }
 
     private fun drawAvatar(canvas: Canvas) {
@@ -188,7 +202,7 @@ class CircleImageView @JvmOverloads constructor(
     }
 
     private fun drawInitials(canvas: Canvas) {
-        //TODO set colorAccent from attrs initialsPaint.color =
+        initialsPaint.color = R.style.Profile_AvatarImage_Background
         canvas.drawOval(viewRect.toRectF(), initialsPaint)
         with(initialsPaint) {
             color = Color.WHITE
@@ -226,9 +240,7 @@ class CircleImageView @JvmOverloads constructor(
         var borderWidth: Float = 0f
         var borderColor: Int = 0
 
-        constructor(superState: Parcelable?) : super(superState){
-
-        }
+        constructor(superState: Parcelable?) : super(superState)
 
         constructor(src: Parcel) : super(src) {
             //restore state from parcel
@@ -242,7 +254,7 @@ class CircleImageView @JvmOverloads constructor(
             //write state to parcel
 
             super.writeToParcel(dst, flags)
-            dst.writeInt(if(isAvatarMode) 1 else 0)
+            dst.writeInt(if (isAvatarMode) 1 else 0)
             dst.writeFloat(borderWidth)
             dst.writeInt(borderColor)
         }
